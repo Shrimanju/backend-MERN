@@ -15,7 +15,10 @@ http://localhost:3000/api/user/update/{mailid}
 5.delete the file using first name
 http://localhost:3000/api/user/remove/{firstname}
 
-ISSUE API
+ISSUE API'
+
+
+
 1.create new issues
 http://localhost:3000/api/issues/newissues
 
