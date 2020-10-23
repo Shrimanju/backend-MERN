@@ -9,12 +9,9 @@ const userSchema = mongoose.Schema({
     },
     lastname: {
         type: String,
-        default: true
+
     },
-    // username: {
-    //     type: String,
-    //     required: true
-    // },
+
     email: {
         type: String,
         required: true,
@@ -23,7 +20,7 @@ const userSchema = mongoose.Schema({
 
     created_by: {
         type: String,
-        default: true
+
     },
 
 
@@ -45,7 +42,11 @@ const userSchema = mongoose.Schema({
     },
     title: {
         type: String,
-        default: true
+
+    },
+    profileImage: {
+        type: String,
+
     }
 
 });
