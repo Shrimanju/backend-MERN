@@ -1,11 +1,47 @@
 // const router = require('express').Router();
 const express = require('express')
+
 const router = express.Router()
 const bodyParser = require('body-parser');;
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const User = require('./../models/user');
 const { json } = require('body-parser');
+
+
+const multer = require('multer');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        fs.mkdir('.uploads/', (err) => {
+            cb(null, '.uploads/');
+        });
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+
+
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
 // const another
 
 
@@ -27,7 +63,7 @@ router.all(
 
 //create new user route
 router.post(
-    '/createnew',
+    '/createnew', upload.single('productImage'),
     [
         //check not empty field
         check('firstname').not().isEmpty().trim().escape(),
@@ -46,20 +82,16 @@ router.post(
                 errors: errors.array()
             });
         }
-        // //o/p of the user
-        // return res.json({
-        //     status: true,
-        //     message: 'User data ok.........'
-        //     // data: req.body
-
-        // });
-        //store in database
+        // //o/p of the use
         User.create(
             {
                 firstname: req.body.firstname,
-                // username: req.body.username,
+                lastname: req.body.lastname,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                created_by: req.body.created_by,
+                title: req.body.title,
+                profileImage: req.file.path
 
             },
             function (error, result) {
