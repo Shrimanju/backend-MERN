@@ -18,6 +18,7 @@ app.use(logger);
 app.use(morgan('dev'));
 app.use(cors());
 app.use('/api/user', userController);
+app.use('/uploads', express.static('uploads'));
 // app.use('/api/issues', issueController);
 
 
